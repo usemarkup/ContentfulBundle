@@ -1,0 +1,27 @@
+{
+    "name": "markup/contentful-bundle",
+    "description": "A Symfony2 bundle to integrate with the Contentful APIs (Content Delivery and Content Management) for PHP 5.4+.",
+    "keywords": ["contentful", "cms"],
+    "type": "symfony-bundle",
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Douglas Greenshields",
+            "email": "douglas@usemarkup.com"
+        },
+        {
+            "name": "Markup",
+            "homepage": "http://www.usemarkup.com/"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "~2.3",
+        "markup/contentful": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
+    "autoload": {
+        "psr-4": { "Markup\\ContentfulBundle\\": "src/" }
+    }
+}
