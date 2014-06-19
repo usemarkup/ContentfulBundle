@@ -25,17 +25,19 @@ class MarkupContentfulExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $this->loadContenful($config, $container);
-
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+
+        if (!$config['enabled']) {
+            $this->loadContentful($config, $container);
+        }
     }
 
     /**
      * @param array            $config
      * @param ContainerBuilder $container
      */
-    private function loadContenful(array $config, ContainerBuilder $container)
+    private function loadContentful(array $config, ContainerBuilder $container)
     {
         $contentful = new Definition('Markup\Contentful\Contentful', $config['spaces']);
         $container->setDefinition('markup_contentful', $contentful);

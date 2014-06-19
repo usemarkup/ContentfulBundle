@@ -19,10 +19,10 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->addDefaultsIfNotSet()
+            ->canBeEnabled()
             ->children()
                 ->arrayNode('spaces')
                     ->useAttributeAsKey('name')
-                    ->requiresAtLeastOneElement()
                     ->prototype('array')
                         ->scalarNode('key')
                             ->isRequired()
