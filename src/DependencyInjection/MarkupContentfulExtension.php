@@ -28,7 +28,7 @@ class MarkupContentfulExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
-        if (!$config['enabled']) {
+        if ($config['enabled']) {
             $this->loadContentful($config, $container);
         }
     }
