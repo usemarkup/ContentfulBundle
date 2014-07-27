@@ -39,7 +39,7 @@ class MarkupContentfulExtension extends Extension
      */
     private function loadContentful(array $config, ContainerBuilder $container)
     {
-        $contentful = new Definition('Markup\Contentful\Contentful', [$config['spaces']]);
+        $contentful = new Definition('Markup\Contentful\Contentful', [$config['spaces'], ['dynamic_entries' => $config['dynamic_entries']]]);
         $container->setDefinition('markup_contentful', $contentful);
     }
 }

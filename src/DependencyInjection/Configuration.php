@@ -37,6 +37,9 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->boolean('dynamic_entries')
+                    ->defaultTrue()
+                ->end()
             ->end();
 
         return $treeBuilder;
