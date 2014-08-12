@@ -6,6 +6,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class MarkupContentfulExtension extends Extension
@@ -39,7 +40,16 @@ class MarkupContentfulExtension extends Extension
      */
     private function loadContentful(array $config, ContainerBuilder $container)
     {
-        $contentful = new Definition('Markup\Contentful\Contentful', [$config['spaces'], ['dynamic_entries' => $config['dynamic_entries']]]);
+        $spacesConfig = $config['spaces'];
+        $processedConfig = [];
+        foreach ($spacesConfig as $spaceName => $spaceData) {
+            if (isset($spaceData['cache']) && $spaceData['cache']) {
+                $spaceData['cache'] = new Reference($spaceData['cache']);
+            }
+            $processedConfig[$spaceName] = $spaceData;
+        }
+
+        $contentful = new Definition('Markup\Contentful\Contentful', [$processedConfig, ['dynamic_entries' => $config['dynamic_entries']]]);
         $container->setDefinition('markup_contentful', $contentful);
     }
 }
