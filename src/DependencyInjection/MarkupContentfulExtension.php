@@ -49,7 +49,16 @@ class MarkupContentfulExtension extends Extension
             $processedConfig[$spaceName] = $spaceData;
         }
 
-        $contentful = new Definition('Markup\Contentful\Contentful', [$processedConfig, ['dynamic_entries' => $config['dynamic_entries']]]);
+        $contentful = new Definition(
+            'Markup\Contentful\Contentful',
+            [
+                $processedConfig,
+                [
+                    'dynamic_entries' => $config['dynamic_entries'],
+                    'include_level' => $config['include_level'],
+                ],
+            ]
+        );
         $container->setDefinition('markup_contentful', $contentful);
     }
 }
