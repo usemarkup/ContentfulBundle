@@ -46,7 +46,7 @@ class StopwatchLogger implements LoggerInterface
         $this->stopwatchCategory = $stopwatchCategory;
         $this->stopwatchSection = $stopwatchSection;
         $this->logs = [];
-        $this->timerCount;
+        $this->timerCount = 1;
     }
 
     /**

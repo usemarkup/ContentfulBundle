@@ -65,7 +65,7 @@ class StopwatchTimer implements TimerInterface
             return;
         }
         if ($this->stopwatchSection) {
-            $this->stopwatch->openSection($this->stopwatchSection);
+            $this->stopwatch->openSection();
         }
         $this->stopwatch->start($this->uniqueId, $this->stopwatchCategory);
         $this->wasStarted = true;
