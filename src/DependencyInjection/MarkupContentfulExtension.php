@@ -56,6 +56,7 @@ class MarkupContentfulExtension extends Extension
                 [
                     'dynamic_entries' => $config['dynamic_entries'],
                     'include_level' => $config['include_level'],
+                    'logger' => new Reference('markup_contentful.stopwatch_logger'),
                 ],
             ]
         );
