@@ -8,7 +8,7 @@
         </service>
 
         <service id="markup_contentful.data_collector" class="Markup\ContentfulBundle\DataCollector\ContentfulDataCollector">
-            <tag name="data_collector" id="contentful" />
+            <tag name="data_collector" template="MarkupContentfulBundle:Collector:contentful" id="contentful" />
             <argument type="service" id="markup_contentful.stopwatch_logger" />
         </service>
     </services>

@@ -1,0 +1,19 @@
+{% extends 'WebProfilerBundle:Profiler:layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+    <img width="28" height="28" alt="Contentful" style="border-width: 0; vertical-align: middle; margin-right: 5px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAC01BMVEU1NTV2dnZUVFRCQkI/Pz9ERERVVVVFRUUzMzMwMDA0NDQ6OjpWVlZ5eXk8PDxTU1N4eHhQUFA9PT1DQ0NJSUk2NjY1NTWFhYVSUlI1NTVCQkJ2dnaAgIA0NDRZWVk3Nzc1NTVzc3NCQkJwcHBNTU1CQkJCQkJGRkZCQkJVVVVCQkJCQkJCQkJcXFw+Pj5CQkJCQkJ0dHRCQkJCQkJBQUE6OjpAQEBmZmZCQkJCQkJCQkJ1dXVZWVlcXFxra2tCQkJCQkJ2dnZ3d3dCQkJCQkJCQkJCQkJCQkJ2dnZCQkJ2dnZ6enpra2tCQkJXV1dCQkJCQkJ2dnZ2dnZ2dnZ3d3d9fX12dnZHR0c7OztCQkJCQkJCQkJ2dnZ2dnaDg4NFRUVDQ0NCQkJCQkJ0dHSBgYF2dnZ1dXV2dnY9PT0wMDAyMjI6Ojp2dnZ2dnZ4eHh8fHxZWVlfX18oKCh2dnZ2dnZCQkJ6enp2dnZwcHBFRUU1NTU1NTU1NTU1NTU1NTV2dnZ2dnZISEgsLCw1NTU1NTU1NTU1NTV3d3cnJycuLi5qamo0NDR2dnYxMTE2NjY1NTU1NTU1NTVycnJ2dnY1NTU1NTU1NTU1NTU1NTU1NTU0NDQ0NDRgYGBkZGQ0NDQ1NTU1NTU1NTU0NDQ9PT0rKyt2dnaCgoI1NTU1NTVISEgxMTE1NTU0NDQ0NDQ2NjY1NTU1NTVCQkI1NTU1NTU1NTU1NTU0NDQ1NTU1NTU1NTU1NTU1NTU1NTU1NTU0NDQ1NTU1NTU1NTU1NTU1NTU1NTU0NDQ1NTV2dnYrKyssLCwpKSkqKiojIyOAgIBCQkItLS18fHwmJiY2NjYzMzMvLy90dHR1dXUiIiJ5eXkZGRknJydSUlJtbW05OTk9PT1/f38yMjI8PDxra2tgYGB6eno0NDQeHh4oKCgxMTFAQEBERER3d3dFRUVLS0uBgYFvb29RUVFkEG/QAAAAxnRSTlMAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgAA7ru1ADQAAKgAnv3AtTAhdEV2TolNADk0ib3509MAFBKVTBViAOdKWhKZ/H5XrCNSc+wAAIoAdauG4IoAALQAACVeN6xNAJSTsLkAADUAE0OqAEGf9WEAGQAAbcvSsGkAYxCNyqcrOZhUAATP+i5D7B0ASMXjL7O8W1Esoj8SLH/vgScAALD149QIBsjrjfMmAATA9C+Rxhh9xORcL4vL8PnXoEsBIWOTsLm1nnMVCRokAAACDElEQVR4Xl3OY5clOxSA4Z1jq93THNu2bdu2bdu2bZv3pnTYHtv8CbNPqqrnzLxZyYc8a2cFDAaDxqaxxZe1FpvRf8DAIgVblNeqKajRDB+R8OKbP1yjiqXyEbO5xxcWxY/ic1TWlKJ/0F2mEPUKgsh//uJXKsnQ6dS4a/uehURBEKTXOKrUJoy2tvElOF92Vm5AmVQrjkhc1eoGc3xvvR9CUpV+jUsnVlK1nBbsrgpfOY57+eZ75VFVo/Ct6jUUbFoTSK0jYeR8R+tYHYhYPRkT60ODaRyrod2Z6pFR24ThhWbQvCuzlsNatY4BvVauHVp7/FCHjgw7kc5dVnbrHqVoj5698ITeHKsPIaQv0eqM+oiggIybEAcNJh6HLiIVhxAy1J6UYh5psZhMJjxwW2D0GKR3wbEu+7i4CRNNABC+BRRs0uScvB/ZP6emp0+PNqMxnDlr9py5iPPm5wWfZgX8C3SOhWisRYsppUuWApBlvl+PvU9yl68wg1oaDZe2Coh99Ssvz/PimrUKxa6jrPUbICluYyCEKH3K2LxlK8Ru276Dyu3cBbv3pOwNSbwo0AxK9+1PoGoHDlrA49AfOsxLQiYape9xyR07DgBG4wnryVOZOMdS8fQZYBhtNaeepX937jzkYwwkX4ygS5cBItECV65eu45w4+at23fgX4S79+4/ePjov/+TQe03V7JCvh+ymeMAAAAASUVORK5CYII=" />
+    <span class="sf-toolbar-status">{{ collector.cachehitcount }}/{{ collector.querycount }}</span> in {{ '%.02f'|format(collector.timeinseconds*1000) }}ms
+    {% endset %}
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Total queries</b>
+            <span>{{ collector.querycount }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Cache hits</b>
+            <span>{{ collector.cachehitcount }}</span>
+        </div>
+    {% endset %}
+    {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
+{% endblock %}
