@@ -6,5 +6,10 @@
         <service id="markup_contentful.stopwatch_logger" class="Markup\ContentfulBundle\Log\StopwatchLogger">
             <argument type="service" id="debug.stopwatch" on-invalid="null" />
         </service>
+
+        <service id="markup_contentful.data_collector" class="Markup\ContentfulBundle\DataCollector\ContentfulDataCollector">
+            <tag name="data_collector" id="contentful" />
+            <argument type="service" id="markup_contentful.stopwatch_logger" />
+        </service>
     </services>
 </container>
