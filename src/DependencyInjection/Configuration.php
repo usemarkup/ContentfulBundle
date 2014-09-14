@@ -47,6 +47,9 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('dynamic_entries')
                     ->defaultTrue()
                 ->end()
+                ->integerNode('connection_timeout')
+                    ->defaultValue(0)
+                ->end()
             ->end();
 
         return $treeBuilder;
