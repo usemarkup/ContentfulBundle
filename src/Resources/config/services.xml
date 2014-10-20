@@ -11,5 +11,9 @@
             <tag name="data_collector" template="MarkupContentfulBundle:Collector:contentful" id="contentful" />
             <argument type="service" id="markup_contentful.stopwatch_logger" />
         </service>
+
+        <service id="markup_contentful.twig_extension" class="Markup\ContentfulBundle\Twig\ContentfulExtension">
+            <tag name="twig.extension" />
+        </service>
     </services>
 </container>
