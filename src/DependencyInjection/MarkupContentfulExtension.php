@@ -49,6 +49,9 @@ class MarkupContentfulExtension extends Extension
             if (isset($spaceData['fallback_cache']) && $spaceData['fallback_cache']) {
                 $spaceData['fallback_cache'] = new Reference($spaceData['fallback_cache']);
             }
+            if (isset($spaceData['asset_decorator']) && $spaceData['asset_decorator']) {
+                $spaceData['asset_decorator'] = new Reference($spaceData['asset_decorator']);
+            }
             $processedConfig[$spaceName] = $spaceData;
         }
 
