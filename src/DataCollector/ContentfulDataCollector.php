@@ -2,6 +2,7 @@
 
 namespace Markup\ContentfulBundle\DataCollector;
 
+use Markup\Contentful\Contentful;
 use Markup\Contentful\Log\LoggerInterface;
 use Markup\Contentful\Log\LogInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,6 +80,26 @@ class ContentfulDataCollector extends DataCollector
         }
 
         return $time;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUsingPreviewApi()
+    {
+        foreach ($this->data['logs'] as $log) {
+            /**
+             * @var LogInterface $log
+             */
+            if ($log->getApi() === Contentful::PREVIEW_API) {
+                return true;
+            }
+            if ($log->getApi() === Contentful::CONTENT_DELIVERY_API) {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     /**
