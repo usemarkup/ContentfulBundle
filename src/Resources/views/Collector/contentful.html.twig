@@ -14,6 +14,10 @@
             <b>Cache hits</b>
             <span>{{ collector.cachehitcount }}</span>
         </div>
+        <div class="sf-toolbar-info-piece">
+            <b>Preview mode</b>
+            <span>{{ collector.usingPreviewApi ? 'yes' : 'no' }}</span>
+        </div>
     {% endset %}
     {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
 {% endblock %}
