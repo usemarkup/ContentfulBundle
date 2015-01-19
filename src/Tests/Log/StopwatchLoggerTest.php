@@ -2,6 +2,7 @@
 
 namespace Markup\ContentfulBundle\Tests\Log;
 
+use Markup\Contentful\Contentful;
 use Markup\Contentful\Log\LogInterface;
 use Markup\ContentfulBundle\Log\StopwatchLogger;
 
@@ -28,7 +29,8 @@ class StopwatchLoggerTest extends \PHPUnit_Framework_TestCase
         $isCacheHit = true;
         $type = LogInterface::TYPE_RESOURCE;
         $resourceType = LogInterface::RESOURCE_ASSET;
-        $this->logger->log($description, $isCacheHit, $timer, $type, $resourceType);
+        $api = Contentful::CONTENT_DELIVERY_API;
+        $this->logger->log($description, $isCacheHit, $timer, $type, $resourceType, $api);
         $finalLogs = $this->logger->getLogs();
         $this->assertCount(1, $finalLogs);
         $log = reset($finalLogs);
