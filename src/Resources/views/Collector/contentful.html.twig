@@ -30,7 +30,7 @@
     <strong>Contentful</strong>
     <span class="count">
         <span>{{ collector.queryCount }}</span>
-        <span>{{ '%.02f'|format(collector.timeinseconds*1000) }} ms</span>
+        <span>{{ '%0.0f'|format(collector.timeinseconds*1000) }} ms</span>
     </span>
 </span>
 {% endblock %}
