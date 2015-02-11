@@ -14,6 +14,7 @@
 
         <service id="markup_contentful.twig_extension" class="Markup\ContentfulBundle\Twig\ContentfulExtension">
             <tag name="twig.extension" />
+            <argument type="service" id="markup_contentful" />
         </service>
     </services>
 </container>
