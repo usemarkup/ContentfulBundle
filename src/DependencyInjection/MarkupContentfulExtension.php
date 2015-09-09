@@ -54,6 +54,9 @@ class MarkupContentfulExtension extends Extension
             }
             $processedConfig[$spaceName] = $spaceData;
         }
+        //by default, we cache fail responses in production, but don't otherwise
+        $isProduction = $container->getParameter('kernel.environment') === 'prod';
+        $cacheFailResponses = (isset($config['cache_fail_responses'])) ? (bool) $config['cache_fail_responses'] : $isProduction;
 
         $contentful = new Definition(
             'Markup\Contentful\Contentful',
@@ -64,6 +67,7 @@ class MarkupContentfulExtension extends Extension
                     'include_level' => $config['include_level'],
                     'logger' => new Reference('markup_contentful.stopwatch_logger'),
                     'guzzle_timeout' => $config['connection_timeout'],
+                    'cache_fail_responses' => $cacheFailResponses,
                 ],
             ]
         );

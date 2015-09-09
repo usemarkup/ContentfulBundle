@@ -59,6 +59,8 @@ class Configuration implements ConfigurationInterface
                 ->integerNode('connection_timeout')
                     ->defaultValue(0)
                 ->end()
+                ->booleanNode('cache_fail_responses')
+                ->end()
             ->end();
 
         return $treeBuilder;
