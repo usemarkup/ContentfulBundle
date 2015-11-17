@@ -68,6 +68,7 @@ class MarkupContentfulExtension extends Extension
                     'logger' => new Reference('markup_contentful.stopwatch_logger'),
                     'guzzle_timeout' => $config['connection_timeout'],
                     'cache_fail_responses' => $cacheFailResponses,
+                    'exclude_archived' => $config['exclude_archived'],
                 ],
             ]
         );

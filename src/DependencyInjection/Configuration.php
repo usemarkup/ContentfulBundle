@@ -61,6 +61,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->booleanNode('cache_fail_responses')
                 ->end()
+                ->booleanNode('exclude_archived')
+                    ->defaultFalse()
+                ->end()
             ->end();
 
         return $treeBuilder;
