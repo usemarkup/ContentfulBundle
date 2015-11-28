@@ -23,7 +23,8 @@
     "require-dev": {
         "phpunit/phpunit": "~4.1",
         "mockery/mockery": "~0.9",
-        "twig/twig": "~1.12"
+        "twig/twig": "~1.12",
+        "egils/cache": "0.1"
     },
     "autoload": {
         "psr-4": { "Markup\\ContentfulBundle\\": "src/" }
