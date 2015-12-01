@@ -6,6 +6,7 @@ use Markup\Contentful\SpaceInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class InteractCommand extends ContainerAwareCommand
 {
@@ -20,7 +21,24 @@ class InteractCommand extends ContainerAwareCommand
     {
         $contentful = $this->getContainer()->get('markup_contentful');
 
-        $dialog = $this->getHelper('dialog');
+        //compatibility with symfony 2.3 and 3.0 - 3.0 has question helper instead of dialog
+        if (!$this->getHelperSet()->has('dialog')) {
+            $askChoiceQuestion = function ($question, $choices) use ($input, $output) {
+                return $this->getHelper('question')->ask(
+                    $input,
+                    $output,
+                    new ChoiceQuestion($question, $choices)
+                );
+            };
+        } else {
+            $askChoiceQuestion = function ($question, $choices) use ($output) {
+                return $this->getHelper('dialog')->select(
+                    $output,
+                    $question,
+                    $choices
+                );
+            };
+        }
 
         $fetchSpace = function (OutputInterface $output) use ($contentful) {
             $space = $contentful->getSpace();
@@ -46,11 +64,7 @@ class InteractCommand extends ContainerAwareCommand
         ];
 
         while (true) {
-            $actionIndex = $dialog->select(
-                $output,
-                'Please select:',
-                array_keys($actions)
-            );
+            $actionIndex = $askChoiceQuestion('Please select:', array_keys($actions));
             $action = $actions[array_keys($actions)[$actionIndex]];
             $exitCode = $action($output);
             if (is_int($exitCode)) {
