@@ -17,7 +17,7 @@
     "require": {
         "symfony/console": "~2.3|~3.0",
         "symfony/framework-bundle": "~2.3|~3.0",
-        "markup/contentful": "dev-master",
+        "markup/contentful": "~0.1.0",
         "psr/cache-implementation": "@dev"
     },
     "require-dev": {
