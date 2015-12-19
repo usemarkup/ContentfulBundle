@@ -3,7 +3,7 @@
     "description": "A Symfony2 bundle to integrate with the Contentful APIs (Content Delivery and Content Management) for PHP 5.4+.",
     "keywords": ["contentful", "cms"],
     "type": "symfony-bundle",
-    "licence": "MIT",
+    "license": "MIT",
     "authors": [
         {
             "name": "Douglas Greenshields",
