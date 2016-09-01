@@ -39,16 +39,28 @@
     <h2>Queries</h2>
     <p>Total queries: {{ collector.queryCount }}</p>
     <p>Total cache hits: {{ collector.cachehitcount }}</p>
-    <ul class="alt">
-        {% for log in collector.logs %}
-            <li class="{{ cycle(['odd', 'even'], loop.index) }}">
-                <div>
-                    {{ log.description }}
-                </div>
-                <small>
-                    <strong>({{ '%.0f'|format(log.durationInSeconds*1000) }} ms)</strong>
-                </small>
-            </li>
-        {% endfor %}
-    </ul>
+    {% if collector.logs|length > 0 %}
+        <table class="alt">
+            <thead>
+            <tr>
+                <th class="nowrap">#</th>
+                <th class="nowrap">Time</th>
+                <th class="nowrap">Cache</th>
+                <th class="nowrap">API</th>
+                <th class="nowrap">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for log in collector.logs %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td class="nowrap">{{ '%.0f'|format(log.durationInSeconds*1000) }} ms</td>
+                    <td class="nowrap">{{ log.isCacheHit ? 'HIT' : 'MISS' }}</td>
+                    <td class="nowrap">{{ log.api }}</td>
+                    <td>{{ log.description }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
