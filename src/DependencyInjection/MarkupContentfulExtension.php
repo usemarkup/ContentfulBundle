@@ -66,8 +66,8 @@ class MarkupContentfulExtension extends Extension
                     'dynamic_entries' => $config['dynamic_entries'],
                     'include_level' => $config['include_level'],
                     'logger' => new Reference('markup_contentful.stopwatch_logger'),
-                    'guzzle_connection_timeout' => $config['timeout'],
-                    'guzzle_timeout' => $config['timeout'],
+                    'guzzle_connection_timeout' => $config['connection_timeout'],
+                    'guzzle_timeout' => $config['connection_timeout'],
                     'cache_fail_responses' => $cacheFailResponses,
                 ],
             ]
