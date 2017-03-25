@@ -46,7 +46,7 @@ class StopwatchLogger implements LoggerInterface
         $this->stopwatchCategory = $stopwatchCategory;
         $this->stopwatchSection = $stopwatchSection;
         $this->logs = [];
-        $this->timerCount;
+        $this->timerCount = 1;
     }
 
     /**
@@ -56,7 +56,7 @@ class StopwatchLogger implements LoggerInterface
      */
     public function getStartedTimer()
     {
-        $timer = new StopwatchTimer($this->stopwatch, sprintf('fetch%u', $this->timerCount), $this->stopwatchCategory, $this->stopwatchSection);
+        $timer = new StopwatchTimer($this->stopwatch, sprintf('Contentful fetch #%u', $this->timerCount), $this->stopwatchCategory, $this->stopwatchSection);
         $timer->start();
         $this->timerCount++;
 
