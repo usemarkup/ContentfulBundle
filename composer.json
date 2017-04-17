@@ -1,6 +1,6 @@
 {
     "name": "markup/contentful-bundle",
-    "description": "A Symfony2 bundle to integrate with the Contentful APIs (Content Delivery and Content Management) for PHP 5.4+.",
+    "description": "A Symfony2 bundle to integrate with the Contentful APIs (Content Delivery and Content Management) for PHP 5.6+.",
     "keywords": ["contentful", "cms"],
     "type": "symfony-bundle",
     "license": "MIT",
@@ -15,17 +15,26 @@
         }
     ],
     "require": {
-        "symfony/console": "~2.3|~3.0",
-        "symfony/framework-bundle": "~2.3|~3.0",
-        "markup/contentful": "~0.3",
-        "psr/cache": "~1.0.0"
+        "php": "~5.6|~7.0",
+        "symfony/console": "~2.7|~3.0",
+        "symfony/framework-bundle": "~2.7|~3.0",
+        "symfony/expression-language": "~2.7|~3.0",
+        "symfony/stopwatch": "~2.7|~3.0",
+        "markup/contentful": "~0.6",
+        "psr/cache": "~1.0.0",
+        "bmancone/guzzle-stopwatch-middleware": "0.0.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1",
+        "phpunit/phpunit": "~5.7",
         "mockery/mockery": "~0.9",
-        "twig/twig": "~1.12"
+        "twig/twig": "~1.12|~2.0"
     },
     "autoload": {
         "psr-4": { "Markup\\ContentfulBundle\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.5.x-dev"
+        }
     }
 }

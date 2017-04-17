@@ -2,6 +2,9 @@
 
 namespace Markup\ContentfulBundle\DependencyInjection;
 
+use GuzzleHttp\HandlerStack;
+use Leadz\GuzzleHttp\Stopwatch\StopwatchMiddleware;
+use Markup\Contentful\Contentful;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -58,18 +61,43 @@ class MarkupContentfulExtension extends Extension
         $isProduction = $container->getParameter('kernel.environment') === 'prod';
         $cacheFailResponses = (isset($config['cache_fail_responses'])) ? (bool) $config['cache_fail_responses'] : $isProduction;
 
+        $usingStopwatchHandler = false;
+        if ($container->getParameter('kernel.debug')) {
+            $usingStopwatchHandler = true;
+            $container->setDefinition(
+                'markup_contentful.stopwatch_middleware',
+                (new Definition(StopwatchMiddleware::class))
+                    ->setArguments([new Reference('debug.stopwatch')])
+                    ->setPublic(false)
+            );
+            $container->setDefinition(
+                'markup_contentful.stopwatch_handler',
+                (new Definition(HandlerStack::class))
+                    ->setFactory([HandlerStack::class, 'create'])
+                    ->addMethodCall('push', [new Reference('markup_contentful.stopwatch_middleware')])
+                    ->setPublic(false)
+            );
+        }
+
         $contentful = new Definition(
-            'Markup\Contentful\Contentful',
+            Contentful::class,
             [
                 $processedConfig,
-                [
-                    'dynamic_entries' => $config['dynamic_entries'],
-                    'include_level' => $config['include_level'],
-                    'logger' => new Reference('markup_contentful.stopwatch_logger'),
-                    'guzzle_connection_timeout' => $config['connection_timeout'],
-                    'guzzle_timeout' => $config['connection_timeout'],
-                    'cache_fail_responses' => $cacheFailResponses,
-                ],
+                array_merge(
+                    [
+                        'dynamic_entries' => $config['dynamic_entries'],
+                        'include_level' => $config['include_level'],
+                        'logger' => new Reference('markup_contentful.stopwatch_logger'),
+                        'guzzle_connection_timeout' => $config['connection_timeout'],
+                        'guzzle_timeout' => $config['connection_timeout'],
+                        'cache_fail_responses' => $cacheFailResponses,
+                    ],
+                    ($usingStopwatchHandler)
+                        ? [
+                            'guzzle_handler' => new Reference('markup_contentful.stopwatch_handler')
+                        ]
+                        : []
+                )
             ]
         );
         $container->setDefinition('markup_contentful', $contentful);

@@ -2,12 +2,27 @@
 
 namespace Markup\ContentfulBundle\Tests\Log;
 
+use Markup\Contentful\Log\TimerInterface;
 use Markup\ContentfulBundle\Log\StopwatchTimer;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class StopwatchTimerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Stopwatch
+     */
+    private $stopwatch;
+
+    /**
+     * @var string
+     */
+    private $uniqueId;
+
+    /**
+     * @var StopwatchTimer
+     */
+    private $timer;
+
     protected function setUp()
     {
         $this->stopwatch = new Stopwatch();
@@ -17,15 +32,11 @@ class StopwatchTimerTest extends \PHPUnit_Framework_TestCase
 
     public function testIsTimer()
     {
-        $this->assertInstanceOf('Markup\Contentful\Log\TimerInterface', $this->timer);
+        $this->assertInstanceOf(TimerInterface::class, $this->timer);
     }
 
     public function testStandardCycle()
     {
-        //if this is < symfony 2.5, this isn't going to be supported, so skip it
-        if (version_compare(Kernel::VERSION, '2.5.0', 'lt')) {
-            $this->markTestSkipped('Stopwatch timer is not supported for below Symfony 2.5.');
-        }
         $this->assertFalse($this->timer->isStarted());
         $this->timer->start();
         $this->assertTrue($this->timer->isStarted());
