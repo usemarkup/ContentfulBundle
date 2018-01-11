@@ -40,6 +40,11 @@ class ContentfulDataCollector extends DataCollector
         ];
     }
 
+    public function reset()
+    {
+        $this->data = [];
+    }
+
     /**
      * @return LogInterface[]
      */
