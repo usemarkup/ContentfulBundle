@@ -100,6 +100,7 @@ class MarkupContentfulExtension extends Extension
                 )
             ]
         );
+        $contentful->setPublic(true);
         $container->setDefinition('markup_contentful', $contentful);
     }
 }
