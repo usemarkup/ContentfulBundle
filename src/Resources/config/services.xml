@@ -16,5 +16,9 @@
             <tag name="twig.extension" />
             <argument type="service" id="markup_contentful" />
         </service>
+
+        <service id="markup_contentful.command.interact" class="Markup\ContentfulBundle\Command\InteractCommand">
+            <tag name="console.command" command="markup:contentful:interact" />
+        </service>
     </services>
 </container>
