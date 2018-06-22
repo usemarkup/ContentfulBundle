@@ -2,14 +2,27 @@
 
 namespace Markup\ContentfulBundle\Command;
 
+use Markup\Contentful\Contentful;
 use Markup\Contentful\SpaceInterface;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
-class InteractCommand extends ContainerAwareCommand
+class InteractCommand extends Command
 {
+    /**
+     * @var Contentful
+     */
+    private $contentful;
+
+    public function __construct(Contentful $contentful)
+    {
+        $this->contentful = $contentful;
+
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -19,8 +32,6 @@ class InteractCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $contentful = $this->getContainer()->get('markup_contentful');
-
         //compatibility with symfony 2.3 and 3.0 - 3.0 has question helper instead of dialog
         if (!$this->getHelperSet()->has('dialog')) {
             $askChoiceQuestion = function ($question, $choices) use ($input, $output) {
@@ -40,8 +51,8 @@ class InteractCommand extends ContainerAwareCommand
             };
         }
 
-        $fetchSpace = function (OutputInterface $output) use ($contentful) {
-            $space = $contentful->getSpace();
+        $fetchSpace = function (OutputInterface $output) {
+            $space = $this->contentful->getSpace();
             if (!$space instanceof SpaceInterface) {
                 $output->writeln('<error>Could not get space.</error>');
 

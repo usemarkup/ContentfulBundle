@@ -14,11 +14,12 @@
 
         <service id="markup_contentful.twig_extension" class="Markup\ContentfulBundle\Twig\ContentfulExtension">
             <tag name="twig.extension" />
-            <argument type="service" id="markup_contentful" />
+            <argument type="service" id="Markup\Contentful\Contentful" />
         </service>
 
         <service id="markup_contentful.command.interact" class="Markup\ContentfulBundle\Command\InteractCommand">
             <tag name="console.command" command="markup:contentful:interact" />
+            <argument type="service" id="Markup\Contentful\Contentful" />
         </service>
     </services>
 </container>

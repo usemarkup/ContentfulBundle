@@ -6,6 +6,7 @@ use GuzzleHttp\HandlerStack;
 use Leadz\GuzzleHttp\Stopwatch\StopwatchMiddleware;
 use Markup\Contentful\Contentful;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -101,6 +102,7 @@ class MarkupContentfulExtension extends Extension
             ]
         );
         $contentful->setPublic(true);
-        $container->setDefinition('markup_contentful', $contentful);
+        $container->setDefinition(Contentful::class, $contentful);
+        $container->setAlias('markup_contentful', Contentful::class);
     }
 }
