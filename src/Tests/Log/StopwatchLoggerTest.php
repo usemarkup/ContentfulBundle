@@ -3,10 +3,12 @@
 namespace Markup\ContentfulBundle\Tests\Log;
 
 use Markup\Contentful\Contentful;
+use Markup\Contentful\Log\LoggerInterface;
 use Markup\Contentful\Log\LogInterface;
 use Markup\ContentfulBundle\Log\StopwatchLogger;
+use PHPUnit\Framework\TestCase;
 
-class StopwatchLoggerTest extends \PHPUnit_Framework_TestCase
+class StopwatchLoggerTest extends TestCase
 {
     protected function setUp()
     {
@@ -15,7 +17,7 @@ class StopwatchLoggerTest extends \PHPUnit_Framework_TestCase
 
     public function testIsLogger()
     {
-        $this->assertInstanceOf('Markup\Contentful\Log\LoggerInterface', $this->logger);
+        $this->assertInstanceOf(LoggerInterface::class, $this->logger);
     }
 
     public function testLogOneItem()

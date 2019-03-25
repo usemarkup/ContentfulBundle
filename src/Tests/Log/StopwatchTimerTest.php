@@ -4,9 +4,10 @@ namespace Markup\ContentfulBundle\Tests\Log;
 
 use Markup\Contentful\Log\TimerInterface;
 use Markup\ContentfulBundle\Log\StopwatchTimer;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class StopwatchTimerTest extends \PHPUnit_Framework_TestCase
+class StopwatchTimerTest extends TestCase
 {
     /**
      * @var Stopwatch

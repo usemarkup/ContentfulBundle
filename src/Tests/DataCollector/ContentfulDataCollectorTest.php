@@ -2,25 +2,36 @@
 
 namespace Markup\ContentfulBundle\Tests\DataCollector;
 
+use Markup\Contentful\Log\LoggerInterface;
+use Markup\Contentful\Log\LogInterface;
 use Markup\ContentfulBundle\DataCollector\ContentfulDataCollector;
 use Mockery as m;
+use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface;
 
-class ContentfulDataCollectorTest extends \PHPUnit_Framework_TestCase
+class ContentfulDataCollectorTest extends MockeryTestCase
 {
+    /**
+     * @var LoggerInterface|m\MockInterface
+     */
+    private $logger;
+
+    /**
+     * @var ContentfulDataCollector
+     */
+    private $collector;
+
     protected function setUp()
     {
-        $this->logger = m::mock('Markup\Contentful\Log\LoggerInterface');
+        $this->logger = m::mock(LoggerInterface::class);
         $this->collector = new ContentfulDataCollector($this->logger);
-    }
-
-    protected function tearDown()
-    {
-        m::close();
     }
 
     public function testIsDataCollector()
     {
-        $this->assertInstanceOf('Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface', $this->collector);
+        $this->assertInstanceOf(DataCollectorInterface::class, $this->collector);
     }
 
     public function testGetLogs()
@@ -84,13 +95,13 @@ class ContentfulDataCollectorTest extends \PHPUnit_Framework_TestCase
     {
         $collector = $collector ?: $this->collector;
         $collector->collect(
-            m::mock('Symfony\Component\HttpFoundation\Request'),
-            m::mock('Symfony\Component\HttpFoundation\Response')
+            m::mock(Request::class),
+            m::mock(Response::class)
         );
     }
 
     private function getMockLog()
     {
-        return m::mock('Markup\Contentful\Log\LogInterface');
+        return m::mock(LogInterface::class);
     }
 }
