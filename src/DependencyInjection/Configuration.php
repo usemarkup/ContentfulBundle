@@ -73,6 +73,9 @@ class Configuration implements ConfigurationInterface
                 ->booleanNode('force_preview_mode')
                     ->defaultFalse()
                 ->end()
+                ->booleanNode('expose_space_configurations')
+                    ->defaultFalse()
+                ->end()
             ->end();
 
         return $treeBuilder;

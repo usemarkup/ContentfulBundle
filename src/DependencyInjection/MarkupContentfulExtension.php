@@ -5,6 +5,7 @@ namespace Markup\ContentfulBundle\DependencyInjection;
 use GuzzleHttp\HandlerStack;
 use Leadz\GuzzleHttp\Stopwatch\StopwatchMiddleware;
 use Markup\Contentful\Contentful;
+use Markup\ContentfulBundle\Export\ConfigurationEnvelope;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -115,5 +116,15 @@ class MarkupContentfulExtension extends Extension
         $contentful->setPublic(true);
         $container->setDefinition(Contentful::class, $contentful);
         $container->setAlias('markup_contentful', Contentful::class);
+
+        if ($config['expose_space_configurations']) {
+            $this->loadExposedSpaceConfigurations($processedConfig, $container);
+        }
+    }
+
+    private function loadExposedSpaceConfigurations(array $processedConfig, ContainerBuilder $container)
+    {
+        $envelope = new Definition(ConfigurationEnvelope::class, [$processedConfig]);
+        $container->setDefinition(ConfigurationEnvelope::class, $envelope);
     }
 }
