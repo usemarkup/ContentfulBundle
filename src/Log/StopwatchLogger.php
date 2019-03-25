@@ -16,12 +16,12 @@ class StopwatchLogger implements LoggerInterface
     private $stopwatch;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $stopwatchCategory;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $stopwatchSection;
 
@@ -75,6 +75,9 @@ class StopwatchLogger implements LoggerInterface
      */
     public function log($description, $isCacheHit, TimerInterface $timer = null, $type, $resourceType, $api)
     {
+        if (!$timer) {
+            return;
+        }
         if ($timer->isStarted()) {
             $timer->stop();//will have no effect if already stopped
             $duration = $timer->getDurationInSeconds();

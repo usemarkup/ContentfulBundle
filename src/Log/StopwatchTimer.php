@@ -101,7 +101,7 @@ class StopwatchTimer implements TimerInterface
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getDurationInSeconds()
     {
