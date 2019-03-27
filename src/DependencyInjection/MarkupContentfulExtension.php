@@ -68,6 +68,9 @@ class MarkupContentfulExtension extends Extension
                 $spaceData['preview_access_token'] = $spaceData['access_token'];
             }
             $spaceData['access_token'] = (!$spaceData['preview_mode']) ? $spaceData['cda_access_token'] : $spaceData['preview_access_token'];
+            if (isset($spaceData['resource_envelope']) && $spaceData['resource_envelope']) {
+                $spaceData['resource_envelope'] = new Reference($spaceData['resource_envelope']);
+            }
             $processedConfig[$spaceName] = $spaceData;
         }
         //by default, we cache fail responses in production, but don't otherwise
