@@ -39,7 +39,7 @@ class StopwatchLoggerTest extends TestCase
         $this->assertInstanceOf('Markup\Contentful\Log\LogInterface', $log);
         $this->assertEquals($type, $log->getType());
         $this->assertEquals($description, $log->getDescription());
-        $this->assertInternalType('float', $log->getDurationInSeconds());
+        $this->assertIsFloat($log->getDurationInSeconds());
         $this->assertLessThan(1, $log->getDurationInSeconds());
     }
 }

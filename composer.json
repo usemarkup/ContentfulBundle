@@ -25,7 +25,7 @@
         "bmancone/guzzle-stopwatch-middleware": "~1.0.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7",
+        "phpunit/phpunit": "^7.5",
         "mockery/mockery": "^1.2",
         "twig/twig": "~1.12|~2.0",
         "phpstan/phpstan-shim": "^0.11"

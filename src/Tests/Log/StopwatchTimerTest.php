@@ -43,14 +43,14 @@ class StopwatchTimerTest extends TestCase
         $this->assertTrue($this->timer->isStarted());
         $this->assertFalse($this->timer->isStopped());
         $runningDuration = $this->timer->getDurationInSeconds();
-        $this->assertInternalType('float', $runningDuration);
+        $this->assertIsFloat($runningDuration);
         $this->assertLessThan(2, $runningDuration);//seems reasonable to suppose that this will have executed in less than 2s
         $this->timer->stop();
         $this->assertTrue($this->timer->isStopped());
         $finalDuration = $this->timer->getDurationInSeconds();
         $secondFinalDuration = $this->timer->getDurationInSeconds();
         $this->assertSame($finalDuration, $secondFinalDuration);
-        $this->assertInternalType('float', $finalDuration);
+        $this->assertIsFloat($finalDuration);
         $this->assertGreaterThanOrEqual($runningDuration, $finalDuration);
         $this->assertLessThan(2, $finalDuration);//same applies to final duration
         $this->timer->start();
