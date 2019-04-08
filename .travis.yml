@@ -1,13 +1,13 @@
 language: php
 
 php:
-    - 7.1
-    - 7.2
+    - 7.1.19
+    - 7.2.7
     - 7.3
 
 matrix:
     include:
-        - php: 7.1
+        - php: 7.1.19
           env: deps=low
 
 env:
@@ -25,8 +25,5 @@ script:
     - vendor/bin/phpstan.phar analyse -c phpstan.neon --level 7 .
     - vendor/bin/phpunit -v
 
-notifications:
-  email: "douglas@usemarkup.com"
-
 sudo: false
-dist: trusty
+dist: xenial
