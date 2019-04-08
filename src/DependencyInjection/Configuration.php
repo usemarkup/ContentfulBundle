@@ -30,7 +30,16 @@ class Configuration implements ConfigurationInterface
                                 ->isRequired()
                             ->end()
                             ->scalarNode('access_token')
-                                ->isRequired()
+                                ->defaultNull()
+                                ->setDeprecated(
+                                    'The "%node%" configuration option is deprecated - you should use "cda_access_token" for the CDA or "preview_access_token" for the Preview API.'
+                                )
+                            ->end()
+                            ->scalarNode('cda_access_token')
+                                ->defaultNull()
+                            ->end()
+                            ->scalarNode('preview_access_token')
+                                ->defaultNull()
                             ->end()
                             ->scalarNode('api_domain')
                                 ->defaultNull()
