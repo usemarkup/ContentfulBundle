@@ -45,7 +45,11 @@ class MarkupContentfulExtension extends Extension
     {
         $spacesConfig = $config['spaces'];
         $processedConfig = [];
+        $shouldForcePreviewMode = $config['force_preview_mode'];
         foreach ($spacesConfig as $spaceName => $spaceData) {
+            if ($shouldForcePreviewMode) {
+                $spaceData['preview_mode'] = true;
+            }
             if (isset($spaceData['cache']) && $spaceData['cache']) {
                 $spaceData['cache'] = new Reference($spaceData['cache']);
             }

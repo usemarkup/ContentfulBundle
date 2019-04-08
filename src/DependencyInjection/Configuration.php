@@ -70,6 +70,9 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->booleanNode('cache_fail_responses')
                 ->end()
+                ->booleanNode('force_preview_mode')
+                    ->defaultFalse()
+                ->end()
             ->end();
 
         return $treeBuilder;
