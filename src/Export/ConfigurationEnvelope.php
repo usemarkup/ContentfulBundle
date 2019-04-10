@@ -26,6 +26,9 @@ class ConfigurationEnvelope
         return new SpaceConfiguration($this->configData[$space]);
     }
 
+    /**
+     * @return SpaceConfiguration[]
+     */
     public function getAllSpaceConfigs(): array
     {
         return array_map(
