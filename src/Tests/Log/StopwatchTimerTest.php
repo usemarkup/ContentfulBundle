@@ -56,5 +56,7 @@ class StopwatchTimerTest extends TestCase
         $this->timer->start();
         $this->timer->stop();
         $this->assertEquals($finalDuration, $this->timer->getDurationInSeconds(), 'the timer cannot be reused');
+        $this->assertInstanceOf(\DateTimeInterface::class, $this->timer->getStartTime());
+        $this->assertInstanceOf(\DateTimeInterface::class, $this->timer->getStopTime());
     }
 }

@@ -84,7 +84,16 @@ class StopwatchLogger implements LoggerInterface
         } else {
             $duration = null;
         }
-        $this->logs[] = new Log($description, $duration, $isCacheHit, $type, $resourceType, $api);
+        $this->logs[] = new Log(
+            $description,
+            $duration,
+            $timer->getStartTime(),
+            $timer->getStopTime(),
+            $isCacheHit,
+            $type,
+            $resourceType,
+            $api
+        );
     }
 
     /**

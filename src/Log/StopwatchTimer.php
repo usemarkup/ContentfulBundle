@@ -41,14 +41,20 @@ class StopwatchTimer implements TimerInterface
     private $wasStopped;
 
     /**
+     * @var \DateTimeInterface|null
+     */
+    private $startTime;
+
+    /**
+     * @var \DateTimeInterface|null
+     */
+    private $stopTime;
+
+    /**
      * @var float
      */
     private $durationAtStop;
 
-    /**
-     * @param Stopwatch $stopwatch
-     * @param string    $uniqueId
-     */
     public function __construct(Stopwatch $stopwatch, $uniqueId, $stopwatchCategory = null, $stopwatchSection = null)
     {
         $this->stopwatch = $stopwatch;
@@ -67,6 +73,7 @@ class StopwatchTimer implements TimerInterface
         if ($this->stopwatchSection) {
             $this->stopwatch->openSection($this->stopwatchSection);
         }
+        $this->startTime = new \DateTimeImmutable();
         $this->stopwatch->start($this->uniqueId, $this->stopwatchCategory);
         $this->wasStarted = true;
     }
@@ -80,6 +87,7 @@ class StopwatchTimer implements TimerInterface
             $this->stopwatch->stopSection($this->stopwatchSection);
         }
         $event = $this->stopwatch->stop($this->uniqueId);
+        $this->stopTime = new \DateTimeImmutable();
         $this->durationAtStop = floatval($event->getDuration()/1000);
         $this->wasStopped = true;
     }
@@ -113,5 +121,15 @@ class StopwatchTimer implements TimerInterface
         }
 
         return $this->durationAtStop;
+    }
+
+    public function getStartTime(): ?\DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function getStopTime(): ?\DateTimeInterface
+    {
+        return $this->stopTime;
     }
 }
