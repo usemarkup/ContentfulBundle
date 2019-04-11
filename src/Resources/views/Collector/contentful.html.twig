@@ -5,8 +5,16 @@
         {% set icon %}
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 32 32" enable-background="new 0 0 32 32"><path fill="#FAE501" d="M9.7 22.3C8 20.7 7 18.5 7 16s1-4.7 2.6-6.3c1.4-1.4 1.4-3.6 0-5s-3.6-1.4-5 0C1.8 7.6 0 11.6 0 16s1.8 8.4 4.7 11.3c1.4 1.4 3.6 1.4 5 0 1.3-1.4 1.3-3.6 0-5z"/><path fill="#4FB5E1" d="M9.7 9.7C11.3 8 13.5 7 16 7s4.7 1 6.3 2.6c1.4 1.4 3.6 1.4 5 0s1.4-3.6 0-5C24.4 1.8 20.4 0 16 0S7.6 1.8 4.7 4.7c-1.4 1.4-1.4 3.6 0 5 1.4 1.3 3.6 1.3 5 0z"/><path fill="#F05751" d="M22.3 22.3C20.7 24 18.5 25 16 25s-4.7-1-6.3-2.6c-1.4-1.4-3.6-1.4-5 0s-1.4 3.6 0 5C7.6 30.2 11.6 32 16 32s8.4-1.8 11.3-4.7c1.4-1.4 1.4-3.6 0-5-1.4-1.3-3.6-1.3-5 0z"/><circle fill="#0681B6" cx="7.2" cy="7.2" r="3.5"/><circle fill="#CD4739" cx="7.2" cy="24.8" r="3.5"/></svg>
             <span class="sf-toolbar-status">{{ collector.cachehitcount }}/{{ collector.querycount }}</span>
-            <span class="sf-toolbar-value">{% if collector.querycount > 0 %} in {{ '%.0f'|format(collector.timeinseconds*1000) }} ms{% endif %}</span>    {% endset %}
+            <span class="sf-toolbar-value">{% if collector.querycount > 0 %} in {{ '%.0f'|format(collector.paralleltimeinseconds*1000) }} ms{% endif %}</span>    {% endset %}
         {% set text %}
+            <div class="sf-toolbar-info-piece">
+                <b>Total time (parallel)</b>
+                <span>{{ '%.0f'|format(collector.paralleltimeinseconds*1000) }} ms</span>
+            </div>
+            <div class="sf-toolbar-info-piece">
+                <b>Total time (serial)</b>
+                <span>{{ '%.0f'|format(collector.serialtimeinseconds*1000) }} ms</span>
+            </div>
             <div class="sf-toolbar-info-piece">
                 <b>Total queries</b>
                 <span>{{ collector.querycount }}</span>
@@ -32,15 +40,31 @@
     <strong>Contentful</strong>
     <span class="count">
         <span>{{ collector.queryCount }}</span>
-        <span>{{ '%0.0f'|format(collector.timeinseconds*1000) }} ms</span>
+        <span>{{ '%0.0f'|format(collector.paralleltimeinseconds*1000) }} ms</span>
     </span>
 </span>
 {% endblock %}
 
 {% block panel %}
     <h2>Queries</h2>
-    <p>Total queries: {{ collector.queryCount }}</p>
-    <p>Total cache hits: {{ collector.cachehitcount }}</p>
+    <div class="metrics">
+        <div class="metric">
+            <span class="label">Total queries</span>
+            <span class="value">{{ collector.queryCount }}</span>
+        </div>
+        <div class="metric">
+            <span class="label">Total cache hits</span>
+            <span class="value">{{ collector.cachehitcount }}</span>
+        </div>
+        <div class="metric">
+            <span class="label">Total time spent fetching (parallel)</span>
+            <span class="value">{{ '%0.0f'|format(collector.paralleltimeinseconds*1000) }} <span class="unit">ms</span></span>
+        </div>
+        <div class="metric">
+            <span class="label">Total time spent fetching (serial)</span>
+            <span class="value">{{ '%0.0f'|format(collector.serialtimeinseconds*1000) }} <span class="unit">ms</span></span>
+        </div>
+    </div>
     {% if collector.logs|length > 0 %}
         <table class="alt">
             <thead>

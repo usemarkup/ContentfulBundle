@@ -73,7 +73,7 @@ class ContentfulDataCollectorTest extends MockeryTestCase
         $this->assertEquals(3, $this->collector->getCacheHitCount());
     }
 
-    public function testTimeInSeconds()
+    public function testSerialTimeInSeconds()
     {
         $log1 = $this->getMockLog();
         $log1
@@ -88,7 +88,7 @@ class ContentfulDataCollectorTest extends MockeryTestCase
             ->shouldReceive('getLogs')
             ->andReturn($logs);
         $this->doCollect();
-        $this->assertEquals(0.5, $this->collector->getTimeInSeconds());
+        $this->assertEquals(0.5, $this->collector->getSerialTimeInSeconds());
     }
 
     private function doCollect($collector = null)

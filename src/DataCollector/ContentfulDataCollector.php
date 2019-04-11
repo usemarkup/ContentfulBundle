@@ -53,30 +53,21 @@ class ContentfulDataCollector extends DataCollector
         return $this->data['logs'];
     }
 
-    /**
-     * @return int
-     */
-    public function getQueryCount()
+    public function getQueryCount(): int
     {
         return count($this->data['logs']);
     }
 
-    /**
-     * @return int
-     */
-    public function getCacheHitCount()
+    public function getCacheHitCount(): int
     {
         return count(array_filter($this->data['logs'], function (LogInterface $log) {
             return $log->isCacheHit();
         }));
     }
 
-    /**
-     * @return float
-     */
-    public function getTimeInSeconds()
+    public function getSerialTimeInSeconds(): float
     {
-        $time = 0;
+        $time = 0.0;
         foreach ($this->data['logs'] as $log) {
             /**
              * @var LogInterface $log
@@ -87,10 +78,33 @@ class ContentfulDataCollector extends DataCollector
         return $time;
     }
 
-    /**
-     * @return bool
-     */
-    public function getUsingPreviewApi()
+    public function getParallelTimeInSeconds(): float
+    {
+        $startTime = null;
+        $stopTime = null;
+        foreach ($this->data['logs'] as $log) {
+            /** @var LogInterface $log */
+            if (null === $startTime) {
+                $startTime = $log->getStartTime();
+            }
+            if (null === $stopTime) {
+                $stopTime = $log->getStopTime();
+            }
+            if ($log->getStartTime() < $startTime) {
+                $startTime = $log->getStartTime();
+            }
+            if ($log->getStopTime() > $stopTime) {
+                $stopTime = $log->getStopTime();
+            }
+        }
+        if (null === $startTime || null === $stopTime) {
+            return 0.0;
+        }
+
+        return $this->convertDateIntervalToSeconds($stopTime->diff($startTime, true));
+    }
+
+    public function getUsingPreviewApi(): bool
     {
         foreach ($this->data['logs'] as $log) {
             /**
@@ -114,7 +128,7 @@ class ContentfulDataCollector extends DataCollector
      *
      * @api
      */
-    public function getName()
+    public function getName(): string
     {
         return 'contentful';
     }
@@ -125,5 +139,14 @@ class ContentfulDataCollector extends DataCollector
     private function fetchLogs()
     {
         return $this->logger->getLogs();
+    }
+
+    private function convertDateIntervalToSeconds(\DateInterval $interval): float
+    {
+        //NB. this implementation only works for durations under one hour (which seems acceptable in this use-case!)
+        //it's a slightly shonky implementation because PHP DateIntervals, but should be sufficiently accurate here
+        [$minutes, $seconds] = explode(' ', $interval->format('%i %s.%F'));
+
+        return (intval($minutes) * 60) + floatval($seconds);
     }
 }
