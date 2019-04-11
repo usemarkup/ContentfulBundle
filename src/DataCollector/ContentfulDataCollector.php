@@ -58,13 +58,6 @@ class ContentfulDataCollector extends DataCollector
         return count($this->data['logs']);
     }
 
-    public function getCacheHitCount(): int
-    {
-        return count(array_filter($this->data['logs'], function (LogInterface $log) {
-            return $log->isCacheHit();
-        }));
-    }
-
     public function getSerialTimeInSeconds(): float
     {
         $time = 0.0;

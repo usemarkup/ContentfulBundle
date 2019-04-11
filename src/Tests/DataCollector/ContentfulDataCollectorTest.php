@@ -55,24 +55,6 @@ class ContentfulDataCollectorTest extends MockeryTestCase
         $this->assertEquals(4, $this->collector->getQueryCount());
     }
 
-    public function testCacheHitCount()
-    {
-        $hitLog = $this->getMockLog();
-        $hitLog
-            ->shouldReceive('isCacheHit')
-            ->andReturn(true);
-        $missLog = $this->getMockLog();
-        $missLog
-            ->shouldReceive('isCacheHit')
-            ->andReturn(false);
-        $logs = [$hitLog, $hitLog, $missLog, $missLog, $hitLog];
-        $this->logger
-            ->shouldReceive('getLogs')
-            ->andReturn($logs);
-        $this->doCollect();
-        $this->assertEquals(3, $this->collector->getCacheHitCount());
-    }
-
     public function testSerialTimeInSeconds()
     {
         $log1 = $this->getMockLog();
