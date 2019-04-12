@@ -7,6 +7,13 @@
             <span class="sf-toolbar-status">{{ collector.querycount }}</span>
             <span class="sf-toolbar-value">{% if collector.querycount > 0 %} in {{ '%.0f'|format(collector.paralleltimeinseconds*1000) }} ms{% endif %}</span>    {% endset %}
         {% set text %}
+            <div class="sf-toolbar-info-piece" style="display:flex;justify-content:center;">
+            {% if not collector.usingPreviewApi %}
+                <b class="sf-toolbar-status-green" style="padding:4px 8px;margin-bottom:1em;">Production mode</b>
+            {% else %}
+                <b class="sf-toolbar-status-yellow" style="padding:4px 8px;margin-bottom:1em;">Preview mode</b>
+            {% endif %}
+            </div>
             <div class="sf-toolbar-info-piece">
                 <b>Total time (parallel)</b>
                 <span>{{ '%.0f'|format(collector.paralleltimeinseconds*1000) }} ms</span>
@@ -18,10 +25,6 @@
             <div class="sf-toolbar-info-piece">
                 <b>Total queries</b>
                 <span>{{ collector.querycount }}</span>
-            </div>
-            <div class="sf-toolbar-info-piece">
-                <b>Preview mode</b>
-                <span>{{ collector.usingPreviewApi ? 'yes' : 'no' }}</span>
             </div>
         {% endset %}
         {% include 'WebProfilerBundle:Profiler:toolbar_item.html.twig' with { 'link': profiler_url } %}
