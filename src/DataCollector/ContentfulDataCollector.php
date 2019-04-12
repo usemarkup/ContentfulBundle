@@ -3,6 +3,7 @@
 namespace Markup\ContentfulBundle\DataCollector;
 
 use Markup\Contentful\Contentful;
+use Markup\Contentful\Log\LinkResolveCounterInterface;
 use Markup\Contentful\Log\LoggerInterface;
 use Markup\Contentful\Log\LogInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,11 +18,14 @@ class ContentfulDataCollector extends DataCollector
     private $logger;
 
     /**
-     * @param LoggerInterface $logger
+     * @var LinkResolveCounterInterface
      */
-    public function __construct(LoggerInterface $logger)
+    private $linkResolveCounter;
+
+    public function __construct(LoggerInterface $logger, LinkResolveCounterInterface $linkResolveCounter)
     {
         $this->logger = $logger;
+        $this->linkResolveCounter = $linkResolveCounter;
     }
 
     /**
@@ -37,6 +41,7 @@ class ContentfulDataCollector extends DataCollector
     {
         $this->data = [
             'logs' => $this->fetchLogs(),
+            'linkResolveCount' => count($this->linkResolveCounter),
         ];
     }
 
@@ -112,6 +117,11 @@ class ContentfulDataCollector extends DataCollector
         }
 
         return false;
+    }
+
+    public function getLinkResolves(): int
+    {
+        return $this->data['linkResolveCount'] ?? 0;
     }
 
     /**

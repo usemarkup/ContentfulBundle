@@ -10,6 +10,7 @@
         <service id="markup_contentful.data_collector" class="Markup\ContentfulBundle\DataCollector\ContentfulDataCollector">
             <tag name="data_collector" template="MarkupContentfulBundle:Collector:contentful" id="contentful" />
             <argument type="service" id="markup_contentful.stopwatch_logger" />
+            <argument type="service" id="Markup\Contentful\Log\LinkResolveCounter" />
         </service>
 
         <service id="markup_contentful.twig_extension" class="Markup\ContentfulBundle\Twig\ContentfulExtension">
@@ -21,5 +22,7 @@
             <tag name="console.command" command="markup:contentful:interact" />
             <argument type="service" id="Markup\Contentful\Contentful" />
         </service>
+
+        <service id="Markup\Contentful\Log\LinkResolveCounter" />
     </services>
 </container>

@@ -2,6 +2,7 @@
 
 namespace Markup\ContentfulBundle\Tests\DataCollector;
 
+use Markup\Contentful\Log\LinkResolveCounterInterface;
 use Markup\Contentful\Log\LoggerInterface;
 use Markup\Contentful\Log\LogInterface;
 use Markup\ContentfulBundle\DataCollector\ContentfulDataCollector;
@@ -19,6 +20,16 @@ class ContentfulDataCollectorTest extends MockeryTestCase
     private $logger;
 
     /**
+     * @var LinkResolveCounterInterface
+     */
+    private $linkResolveCounter;
+
+    /**
+     * @var int
+     */
+    private $linkResolveCount;
+
+    /**
      * @var ContentfulDataCollector
      */
     private $collector;
@@ -26,7 +37,15 @@ class ContentfulDataCollectorTest extends MockeryTestCase
     protected function setUp()
     {
         $this->logger = m::mock(LoggerInterface::class);
-        $this->collector = new ContentfulDataCollector($this->logger);
+        $this->linkResolveCount = 42;
+        $this->linkResolveCounter = m::mock(LinkResolveCounterInterface::class)
+            ->shouldReceive('count')
+            ->andReturn($this->linkResolveCount)
+            ->getMock();
+        $this->collector = new ContentfulDataCollector(
+            $this->logger,
+            $this->linkResolveCounter
+        );
     }
 
     public function testIsDataCollector()
@@ -71,6 +90,15 @@ class ContentfulDataCollectorTest extends MockeryTestCase
             ->andReturn($logs);
         $this->doCollect();
         $this->assertEquals(0.5, $this->collector->getSerialTimeInSeconds());
+    }
+
+    public function testGetLinkResolves()
+    {
+        $this->logger
+            ->shouldReceive('getLogs')
+            ->andReturn([]);
+        $this->doCollect();
+        $this->assertEquals($this->linkResolveCount, $this->collector->getLinkResolves());
     }
 
     private function doCollect($collector = null)

@@ -5,6 +5,7 @@ namespace Markup\ContentfulBundle\DependencyInjection;
 use GuzzleHttp\HandlerStack;
 use Leadz\GuzzleHttp\Stopwatch\StopwatchMiddleware;
 use Markup\Contentful\Contentful;
+use Markup\Contentful\Log\LinkResolveCounter;
 use Markup\ContentfulBundle\Export\ConfigurationEnvelope;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -104,6 +105,7 @@ class MarkupContentfulExtension extends Extension
                         'dynamic_entries' => $config['dynamic_entries'],
                         'include_level' => $config['include_level'],
                         'logger' => new Reference('markup_contentful.stopwatch_logger'),
+                        'link_resolve_counter' => new Reference(LinkResolveCounter::class),
                         'guzzle_connection_timeout' => $config['connection_timeout'],
                         'guzzle_timeout' => $config['connection_timeout'],
                         'cache_fail_responses' => $cacheFailResponses,
