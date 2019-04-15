@@ -36,7 +36,9 @@ class StopwatchLoggerTest extends TestCase
         $description = 'description goes here';
         $resourceType = LogInterface::RESOURCE_ASSET;
         $api = Contentful::CONTENT_DELIVERY_API;
-        $this->logger->log($description, $timer, $resourceType, $api);
+        $responseCount = 42;
+        $wasError = true;
+        $this->logger->log($description, $timer, $resourceType, $api, $responseCount, $wasError);
         $finalLogs = $this->logger->getLogs();
         $this->assertCount(1, $finalLogs);
         $log = reset($finalLogs);
@@ -44,5 +46,7 @@ class StopwatchLoggerTest extends TestCase
         $this->assertEquals($description, $log->getDescription());
         $this->assertIsFloat($log->getDurationInSeconds());
         $this->assertLessThan(1, $log->getDurationInSeconds());
+        $this->assertEquals($responseCount, $log->getResponseCount());
+        $this->assertEquals($wasError, $log->wasError());
     }
 }

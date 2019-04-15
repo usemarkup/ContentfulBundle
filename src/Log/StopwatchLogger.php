@@ -70,8 +70,10 @@ class StopwatchLogger implements LoggerInterface
      * @param TimerInterface $timer       A timer. If it is started but not stopped, it will be stopped and a reading taken. If
      * @param string         $resourceType
      * @param string         $api
+     * @param int|null $responseCount
+     * @param bool $wasError
      */
-    public function log($description, TimerInterface $timer = null, $resourceType, $api)
+    public function log($description, TimerInterface $timer = null, $resourceType, $api, ?int $responseCount, bool $wasError = false)
     {
         if (!$timer) {
             return;
@@ -88,7 +90,9 @@ class StopwatchLogger implements LoggerInterface
             $timer->getStartTime(),
             $timer->getStopTime(),
             $resourceType,
-            $api
+            $api,
+            $responseCount,
+            $wasError
         );
     }
 

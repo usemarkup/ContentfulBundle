@@ -76,6 +76,8 @@
                 <th class="nowrap">Time</th>
                 <th class="nowrap">API</th>
                 <th class="nowrap">Description</th>
+                <th class="nowrap">Fetched count (excl. includes)</th>
+                <th class="nowrap">Error?</th>
             </tr>
             </thead>
             <tbody>
@@ -85,6 +87,8 @@
                     <td class="nowrap">{{ '%.0f'|format(log.durationInSeconds*1000) }} ms</td>
                     <td class="nowrap">{{ log.api }}</td>
                     <td>{{ log.description }}</td>
+                    <td>{{ log.responseCount }}</td>
+                    <td>{{ (log.wasError ? '<span class="status-error">Error</span>' : '<span class="status-success">OK</span>')|raw }}</td>
                 </tr>
             {% endfor %}
             </tbody>
