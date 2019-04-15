@@ -92,6 +92,30 @@ class ContentfulDataCollectorTest extends MockeryTestCase
         $this->assertEquals(0.5, $this->collector->getSerialTimeInSeconds());
     }
 
+    public function testParallelTimeInSeconds()
+    {
+        $log1 = $this->getMockLog()
+            ->shouldReceive('getStartTime')
+            ->andReturn(new \DateTimeImmutable('2019-04-15 16:15:15'))
+            ->getMock()
+            ->shouldReceive('getStopTime')
+            ->andReturn(new \DateTimeImmutable('2019-04-15 16:15:20'))
+            ->getMock();
+        $log2 = $this->getMockLog()
+            ->shouldReceive('getStartTime')
+            ->andReturn(new \DateTimeImmutable('2019-04-15 16:15:25'))
+            ->getMock()
+            ->shouldReceive('getStopTime')
+            ->andReturn(new \DateTimeImmutable('2019-04-15 16:15:30'))
+            ->getMock();
+        $logs = [$log1, $log2];
+        $this->logger
+            ->shouldReceive('getLogs')
+            ->andReturn($logs);
+        $this->doCollect();
+        $this->assertEquals(10.0, $this->collector->getParallelTimeInSeconds());
+    }
+
     public function testGetLinkResolves()
     {
         $this->logger

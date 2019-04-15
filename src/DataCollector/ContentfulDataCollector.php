@@ -78,28 +78,30 @@ class ContentfulDataCollector extends DataCollector
 
     public function getParallelTimeInSeconds(): float
     {
-        $startTime = null;
-        $stopTime = null;
-        foreach ($this->data['logs'] as $log) {
-            /** @var LogInterface $log */
-            if (null === $startTime) {
-                $startTime = $log->getStartTime();
+        $intervals = array_filter(
+            array_map(
+                function (LogInterface $log) {
+                    return [$log->getStartTime(), $log->getStopTime()];
+                },
+                $this->data['logs']
+            ),
+            function (array $interval) {
+                return $interval[0] !== null && $interval[1] !== null;
             }
-            if (null === $stopTime) {
-                $stopTime = $log->getStopTime();
-            }
-            if ($log->getStartTime() < $startTime) {
-                $startTime = $log->getStartTime();
-            }
-            if ($log->getStopTime() > $stopTime) {
-                $stopTime = $log->getStopTime();
-            }
-        }
-        if (null === $startTime || null === $stopTime) {
-            return 0.0;
+        );
+        $groups = [];
+        while (count($intervals) > 0) {
+            [$intervals, $startTime, $stopTime] = $this->filterIntervalsIntoGroup($intervals);
+            $groups[] = [$startTime, $stopTime];
         }
 
-        return $this->convertDateIntervalToSeconds($stopTime->diff($startTime, true));
+        return array_reduce(
+            $groups,
+            function ($carry, array $group) {
+                return $carry + $this->convertDateIntervalToSeconds($group[1]->diff($group[0], true));
+            },
+            0.0
+        );
     }
 
     public function getUsingPreviewApi(): bool
@@ -151,5 +153,32 @@ class ContentfulDataCollector extends DataCollector
         [$minutes, $seconds] = explode(' ', $interval->format('%i %s.%F'));
 
         return (intval($minutes) * 60) + floatval($seconds);
+    }
+
+    private function filterIntervalsIntoGroup(array $intervals)
+    {
+        $remainder = [];
+        $startTime = null;
+        $stopTime = null;
+        foreach ($intervals as $interval) {
+            if (null === $startTime) {
+                $startTime = $interval[0];
+            }
+            if (null === $stopTime) {
+                $stopTime = $interval[1];
+            }
+            if ($interval[0] > $stopTime || $interval[1] < $startTime) {
+                $remainder[] = $interval;
+                continue;
+            }
+            if ($interval[0] < $startTime) {
+                $startTime = $interval[0];
+            }
+            if ($interval[1] > $stopTime) {
+                $stopTime = $interval[1];
+            }
+        }
+
+        return [$remainder, $startTime, $stopTime];
     }
 }
