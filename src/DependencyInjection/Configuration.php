@@ -57,7 +57,6 @@ class Configuration implements ConfigurationInterface
                                 ->defaultNull()
                             ->end()
                             ->scalarNode('resource_envelope')
-                                ->defaultNull()
                             ->end()
                         ->end()
                     ->end()
