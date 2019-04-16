@@ -20,7 +20,7 @@
         "symfony/framework-bundle": "~3.4|~4.0",
         "symfony/expression-language": "~3.4|~4.0",
         "symfony/stopwatch": "~3.4|~4.0",
-        "markup/contentful": "dev-master as 0.13",
+        "markup/contentful": ">=0.13, <1",
         "psr/cache": "~1.0.0",
         "bmancone/guzzle-stopwatch-middleware": "~1.0.0"
     },
