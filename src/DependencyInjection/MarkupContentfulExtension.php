@@ -104,7 +104,6 @@ class MarkupContentfulExtension extends Extension
                     [
                         'dynamic_entries' => $config['dynamic_entries'],
                         'include_level' => $config['include_level'],
-                        'link_resolve_counter' => new Reference(LinkResolveCounter::class),
                         'guzzle_connection_timeout' => $config['connection_timeout'],
                         'guzzle_timeout' => $config['connection_timeout'],
                         'cache_fail_responses' => $cacheFailResponses,
@@ -117,6 +116,7 @@ class MarkupContentfulExtension extends Extension
                     ($container->hasParameter('kernel.debug') && $container->getParameter('kernel.debug'))
                         ? [
                             'logger' => new Reference('markup_contentful.stopwatch_logger'),
+                            'link_resolve_counter' => new Reference(LinkResolveCounter::class),
                         ]
                         : []
                 )
