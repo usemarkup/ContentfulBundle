@@ -58,6 +58,8 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('resource_envelope')
                             ->end()
+                            ->integerNode('forced_include_level')
+                            ->end()
                         ->end()
                     ->end()
                 ->end()
