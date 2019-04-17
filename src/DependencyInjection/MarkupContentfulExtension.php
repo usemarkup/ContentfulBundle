@@ -61,13 +61,6 @@ class MarkupContentfulExtension extends Extension
             if (isset($spaceData['asset_decorator']) && $spaceData['asset_decorator']) {
                 $spaceData['asset_decorator'] = new Reference($spaceData['asset_decorator']);
             }
-            //temporary BC logic for ContentfulBundle 0.6:
-            if (!$spaceData['cda_access_token']) {
-                $spaceData['cda_access_token'] = $spaceData['access_token'];
-            }
-            if ($spaceData['preview_mode'] && !$spaceData['preview_access_token']) {
-                $spaceData['preview_access_token'] = $spaceData['access_token'];
-            }
             $spaceData['access_token'] = (!$spaceData['preview_mode']) ? $spaceData['cda_access_token'] : $spaceData['preview_access_token'];
             if (isset($spaceData['resource_envelope']) && $spaceData['resource_envelope']) {
                 $spaceData['resource_envelope'] = new Reference($spaceData['resource_envelope']);
